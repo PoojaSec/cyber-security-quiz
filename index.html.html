@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Don’t Make It Easy for Them — Cyber Security Awareness Quiz</title>
+<!-- STANDALONE VERSION. No external services needed. Edit CONFIG near the top of the script to connect score submission. -->
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#070914;--panel:#10142a;--line:#262c55;--tx:#e8ebff;--mu:#8b92c4;--ok:#2ee59d;--bad:#ff5470;--ac:#7c6cff}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:inherit}
+body{margin:0;background:radial-gradient(900px 500px at 15% -10%,#2a1f6b55,transparent),radial-gradient(800px 500px at 100% 10%,#0b4fa855,transparent),var(--bg);color:var(--tx);font:16px/1.5 "Trebuchet MS","Segoe UI",system-ui,sans-serif;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:18px 16px 40px}
+h1,h2,h3{font-family:"Arial Black","Segoe UI Black",Impact,sans-serif;margin:0;line-height:1.1}
+.hero{text-align:center;padding:34px 0 10px}
+.hero .lock{font-size:64px;filter:drop-shadow(0 0 18px #7c6cff)}
+.hero h1{font-size:clamp(34px,8vw,58px);margin:10px 0;background:linear-gradient(90deg,#8fa8ff,#b57bff,#4dd8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mu);font-size:15px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin:16px 0}
+.rules li{margin:8px 0}
+.rules{padding-left:20px}
+.btn{display:inline-block;border:0;cursor:pointer;color:#fff;font:700 17px "Trebuchet MS",sans-serif;padding:14px 28px;border-radius:12px;background:linear-gradient(90deg,#5a6cff,#9b5cff);box-shadow:0 6px 24px #6a5cff55}
+.btn:hover{filter:brightness(1.12)}
+.btn:focus-visible,.opt:focus-visible{outline:3px solid #4dd8ff;outline-offset:2px}
+.center{text-align:center}
+.hud{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--mu)}
+.bar{flex:1;height:8px;background:#1a1f42;border-radius:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#4dd8ff,#9b5cff);width:0;transition:width .4s}
+.pill{padding:3px 10px;border-radius:99px;background:#1a1f42;border:1px solid var(--line);color:var(--tx);font-weight:700}
+.q{--c:var(--ac);border:1px solid var(--c);box-shadow:0 0 0 1px #0004,0 0 40px -12px var(--c);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 14%,var(--panel)),var(--panel) 38%)}
+.badge{display:inline-block;font:900 15px "Arial Black",sans-serif;padding:7px 14px;border-radius:10px;background:var(--c);color:#06081a}
+.q h2{font-size:clamp(22px,5vw,30px);margin:14px 0 10px}
+.msg{white-space:pre-line;background:#05060f;border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;padding:14px;margin:12px 0;font:14.5px/1.55 Consolas,"Courier New",monospace}
+.msg.chat{border-radius:16px 16px 16px 4px;font-family:inherit;background:#0e2a22;border-color:#1c5a47}
+.msg.call{font-family:inherit;font-style:italic}
+.ask{font-weight:700;font-size:18px;margin:14px 0 10px}
+.opt{display:flex;gap:12px;width:100%;text-align:left;margin:9px 0;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#0b0e22;color:var(--tx);font:inherit;cursor:pointer;transition:transform .12s,border-color .12s}
+.opt:hover:not(:disabled){border-color:var(--c);transform:translateX(3px)}
+.opt b{flex:none;width:28px;height:28px;border-radius:8px;background:#1a1f42;display:grid;place-items:center;font-size:14px}
+.opt.right{border-color:var(--ok);background:#0c2e24}.opt.right b{background:var(--ok);color:#04150e}
+.opt.wrong{border-color:var(--bad);background:#33101b}.opt.wrong b{background:var(--bad);color:#200}
+.opt:disabled{cursor:default}
+@keyframes bg{0%,100%{box-shadow:0 0 0 0 #2ee59d00}50%{box-shadow:0 0 26px 4px #2ee59d;background:#145c43}}
+@keyframes br{0%,100%{box-shadow:0 0 0 0 #ff547000}50%{box-shadow:0 0 26px 4px #ff5470;background:#6a1426}}
+.opt.gok{border-color:var(--ok);background:#0c2e24;animation:bg .3s 3}.opt.gok b{background:var(--ok);color:#04150e}
+.opt.gbad{border-color:var(--bad);background:#33101b;animation:br .3s 3}.opt.gbad b{background:var(--bad);color:#200}
+.opt.sel{border-color:var(--c);background:#161b3d}.opt.sel b{background:var(--c);color:#06081a}
+.reveal{margin-top:16px;padding:16px;border-radius:12px;background:#05060f;border:1px dashed #4dd8ff;animation:pop .35s}
+@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
+.reveal h3{font-size:18px;color:#4dd8ff;margin-bottom:8px}
+.reveal ul{margin:6px 0 10px;padding-left:20px}
+.verdict{font:900 22px "Arial Black",sans-serif;margin-bottom:6px}
+.act{display:inline-block;padding:8px 14px;border-radius:10px;background:#0c2e24;border:1px solid var(--ok);color:var(--ok);font-weight:700}
+.round{text-align:center;padding:36px 20px;border-radius:20px;border:1px solid var(--c);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 18%,var(--bg)),var(--panel))}
+.round .big{font-size:60px}
+.round h2{font-size:clamp(28px,7vw,44px);margin:8px 0;color:var(--c)}
+.score{font:900 72px "Arial Black",sans-serif;background:linear-gradient(90deg,#4dd8ff,#b57bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tiers div{padding:8px 12px;border-radius:10px;margin:6px 0;border:1px solid var(--line);color:var(--mu);font-size:14px}
+.tiers .on{border-color:#4dd8ff;color:var(--tx);background:#0b1a33}
+.final{font:900 clamp(22px,5vw,32px) "Arial Black",sans-serif;text-align:center;margin:20px 0 6px}
+.tmr{display:flex;align-items:center;gap:10px;margin-top:10px}
+.tbar{flex:1;height:10px;background:#1a1f42;border-radius:8px;overflow:hidden}
+.tbar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#2ee59d,#4dd8ff);transition:width .12s linear}
+.tbar i.low{background:linear-gradient(90deg,#ff5470,#ffb347)}
+.pod{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:end;margin:14px 0}
+.pod div{text-align:center;border-radius:14px;padding:14px 8px;border:1px solid var(--line);background:var(--panel)}
+.pod .m{font-size:38px}.pod b{display:block;word-break:break-word}.pod .sc{font:900 26px "Arial Black",sans-serif;color:#4dd8ff}
+.pod .p1{padding-top:26px;padding-bottom:26px;border-color:#ffd166;box-shadow:0 0 30px -8px #ffd166}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.stats div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px}.stats b{display:block;font:900 24px "Arial Black",sans-serif}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{padding:9px 6px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--mu);font-weight:600}
+tr.me td{background:#0b1a33;color:#4dd8ff;font-weight:700}tr.w td:first-child{font-size:18px}
+.btn.alt{background:#1a1f42;box-shadow:none;border:1px solid var(--line)}
+input,textarea{width:100%;margin:6px 0;padding:12px;border-radius:10px;border:1px solid var(--line);background:#05060f;color:var(--tx);font:inherit}
+textarea{min-height:120px;font:13px Consolas,monospace}
+.hide{display:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head>
+<body><div class="wrap" id="app"></div>
+<script>
+/* ===== CONFIG (edit these two lines, both optional) =====
+   webhookUrl: a Power Automate 'When an HTTP request is received' URL. Scores are POSTed as JSON {name,emp,score,seconds,at}.
+   formUrl:    a Microsoft Forms link. Players paste their result code into it. */
+const CONFIG={webhookUrl:"",formUrl:""};
+const T={
+trap:["🎮","SPOT THE TRAP","#b57bff"],flags:["🕵️","FIND THE RED FLAGS","#ffb347"],pay:["💰","WOULD YOU APPROVE THIS PAYMENT?","#2ee59d"],
+ai:["🤖","CAN AI DO THIS?","#4dd8ff"],mfa:["🔐","MFA CHALLENGE","#7c8cff"],file:["🗂️","WHERE SHOULD THIS FILE GO?","#ffd166"],
+who:["🎭","WHO ARE YOU REALLY TALKING TO?","#ff7ad9"],phish:["🎣","REAL OR PHISHING?","#ff8a5c"],boss:["🏆","FINAL BOSS","#ff4d6d"]};
+const R=[
+{n:1,i:"🟢",t:"CYBER STARTER",c:"#2ee59d",d:"Warm-up round. Spot the everyday traps that attackers count on."},
+{n:2,i:"🟡",t:"THREAT SPOTTER",c:"#ffd166",d:"The disguises get better. Look closely before you act."},
+{n:3,i:"🟠",t:"SECURITY DETECTIVE",c:"#ff9f45",d:"Trusted names, real details, tight deadlines. Count the warning signs."},
+{n:4,i:"🔴",t:"FINAL CHALLENGE",c:"#ff4d6d",d:"Real-life pressure, several risks at once. Stay calm and decide."}];
+const Q=[
+// ROUND 1
+{k:"phish",m:"From: Payroll Alerts <no-reply@payr0ll-secure.net>\nSubject: Salary account suspended\n\nYour salary account will be suspended in 10 minutes. Enter your password and OTP now to keep it active.",
+a:"What should you do?",o:["Don’t click. Report it as phishing and check with HR/Payroll through a known channel","Click the link just to see if the page looks genuine","Enter your password but skip the OTP, to be safe","Forward it to colleagues so they can protect themselves"],c:0,
+f:["Extreme urgency (10 minutes)","Suspicious look-alike sender address","Asks for your password AND OTP"],d:"STOP → CHECK → REPORT"},
+{k:"mfa",m:"11:42 PM. Your phone shows: “Approve sign-in to Microsoft 365?”\nYou have not tried to log in.",
+a:"What do you do?",o:["Approve it. It’s probably a glitch and will go away","Deny it, then report it to IT/Security and change your password","Ignore it and tell nobody","Approve it, then check your account for odd activity"],c:1,
+f:["You didn’t start this login","Someone may already know your password"],d:"DENY → REPORT → RESET"},
+{k:"ai",m:"You need a summary of 200 customer complaints (names, phone numbers, account IDs). A free public AI chatbot could do it in seconds.",
+a:"Can you paste the data in?",o:["Yes. These tools don’t keep what you type","Yes, if you remove only the customer names","Yes, if you use your personal phone instead of the work laptop","No. Use only a company-approved AI tool under the AI policy, or ask first"],c:3,
+f:["Customer personal data","Public tool not approved by the company","Pasted data leaves company control"],d:"Approved tools only. Check the policy first."},
+{k:"file",m:"📄 “Staff Salary Review 2026.xlsx”\nYou need to share it with two HR colleagues.",
+a:"Where should it go?",o:["Email it to the whole HR team for convenience","Approved company storage, shared only with those two named people","An “Anyone with the link” share link","Your personal email, so you can work from home"],c:1,
+f:["Salary data is highly confidential","Need-to-know: only the two people who need it","Personal email and public links are outside company control"],d:"Approved storage + named access only"},
+{k:"trap",m:"📞 “Hi, IT Support here. Your mailbox has a fault. Tell me your password and I’ll fix it right now.”",cls:"call",
+a:"Safest action?",o:["Share it. IT asked for it","Share it, then change it afterwards","Refuse, hang up and contact IT via the official helpdesk","Share only half of it"],c:2,
+f:["Unexpected call","Asks for your password (real IT never needs it)","Pressure to act right now"],d:"STOP → HANG UP → VERIFY"},
+// ROUND 2
+{k:"phish",m:"From: Priya (Apex Supplies) <priya@apex-suppIies.com>\n\n“Hi, I’ve shared our updated price list. Open it here: apex-files.example/login”",
+a:"Priya is your usual vendor. Safest move?",o:["Open it. You know Priya and expect a price list","Open it on your phone, which is safer","Reply asking if the link is safe","Don’t click. Contact Priya on a number you already have, and report if it’s fake"],c:3,
+f:["Look-alike domain: “suppIies” uses a capital I","Link asks you to log in","A familiar name is not proof"],d:"CHECK the sender → VERIFY elsewhere"},
+{k:"file",m:"You emailed a customer list to “Rahul Mehta”. Autocomplete picked an external Rahul at another company.",
+a:"What now?",o:["Tell your manager/Security right away so they can assess and contain it","Ask Rahul to delete it and leave it there","Wait a day to see if he replies","Recall the email and say nothing if it worked"],c:0,
+f:["Delay gives the leak more time to spread","Only Security can judge the real impact"],d:"Speed matters. REPORT IMMEDIATELY. Honest mistakes get help."},
+{k:"ai",m:"Your approved AI tool drafted a market report for your manager. It quotes a statistic and a named source, but you can’t find that source anywhere.",
+a:"What do you do?",o:["Send it. The tool is company-approved, so it’s accurate","Keep the statistic, delete the source name","Check the facts yourself and remove anything you can’t verify","Send it and mention AI wrote it"],c:2,
+f:["AI can sound confident and still be wrong","It can invent sources","You are accountable for what you send"],d:"AI drafts. YOU verify."},
+{k:"who",m:"WhatsApp from an unknown number:\n“Hi, it’s Anil (your manager), new phone. Need 5 gift cards for a client today. Keep it quiet, I’ll reimburse you.”",cls:"chat",
+a:"Who are you really talking to?",o:["Anil. Buy them, since he’ll reimburse you","Don’t buy. Confirm with Anil on his known number or in person","Ask a question only Anil would know, and buy if answered right","Buy two as a test"],c:1,
+f:["New number","Authority + urgency + secrecy","Gift cards are a classic fraud request"],d:"STOP → VERIFY on a known channel"},
+{k:"mfa",m:"A teammate pings you: “Phone died and I’m locked out before the deadline! Can you read me the code from your authenticator?”",cls:"chat",
+a:"Your move?",o:["Send it. They’re a trusted colleague","Read it out on a call, not in chat","Share only the first three digits","Never share it. Send them to the IT helpdesk to recover access"],c:3,
+f:["Codes are personal and must never be shared","The code unlocks YOUR account, not theirs","Urgency is a pressure tactic"],d:"Never share OTPs. Not even with friends."},
+// ROUND 3
+{k:"flags",m:"From: HR Benefits <hr-benefits@company-payroII.com>\nSubject: URGENT: Bonus will be forfeited\n\nDear Employee,\nConfirm your details within 30 minutes by logging in with your password at the link below, or your bonus is cancelled. Please keep this confidential and do not discuss it with your manager.",
+a:"How many red flags can you spot?",o:["2","3","5","7"],c:2,
+f:["Look-alike domain (“payroII”)","Urgency (30 minutes)","Generic “Dear Employee”","Password login via a link","Secrecy: don’t tell your manager"],d:"5 flags. Report it, don’t reply."},
+{k:"pay",m:"Reply inside an existing email thread:\n“Our bank has changed. Please pay today’s invoice of ₹18,40,000 to the new account below.”\nFinance says it’s yours to release.",
+a:"Would you approve this payment?",o:["No. Hold it and verify the new bank details by calling the vendor on a number from your records","Yes. It’s in an existing thread, so it’s genuine","Yes, but pay only half now","Reply asking them to confirm the details"],c:0,
+f:["Changed bank details","Deadline pressure","Threads can be hijacked","Replying may reach the attacker"],d:"Verify bank changes through a known contact"},
+{k:"ai",m:"Your company has an approved AI tool. But your personal AI app on your phone is faster. You want help with a board presentation containing confidential financials and merger notes.",
+a:"What do you do?",o:["Use the personal app. Just remove the company name","Use both and compare the answers","Use the personal app, then delete the chat","Use only the approved tool, and follow the AI policy on what can go in"],c:3,
+f:["Confidential company information","Unapproved tool","Hiding the name doesn’t make the content safe"],d:"Convenience never beats policy."},
+{k:"who",m:"📞 “I’m from Cloudsoft support. I know Meena runs Project Falcon out of the Pune office. Install this remote-access tool so I can fix your licence issue.”",cls:"call",
+a:"Who are you really talking to?",o:["A real vendor. He knows our people and project","Decline. Knowing internal details doesn’t prove identity. Verify via IT/official vendor channel and report","Install it, but watch what he does","Ask him to email the tool first"],c:1,
+f:["Unsolicited call","Remote-access request","Insider details can be gathered from LinkedIn or leaks"],d:"Knowing ≠ proof. VERIFY first."},
+{k:"mfa",m:"You’re at your desk. Your phone buzzes with 8 sign-in approval prompts in a row. Then a Teams message from “IT Helpdesk”:\n“Just approve one to stop the glitch.”",cls:"chat",
+a:"What should you do?",o:["Approve one so the prompts stop","Approve one, then tell IT","Deny them all, don’t reply, report to IT/Security and reset your password","Switch your phone off and carry on"],c:2,
+f:["Prompt flooding to wear you down","“IT” asking you to approve","Someone has your password"],d:"DENY → REPORT → RESET"},
+// ROUND 4
+{k:"pay",m:"From: “CFO” <cfo.office.mail@gmail.com>\n\n“Confidential acquisition. Wire ₹95,00,000 to the account below today. Do not discuss with Finance or anyone else. I’m in meetings, email only.”",
+a:"Would you approve this payment?",o:["Yes. It’s the CFO and it’s confidential","Yes, but ask Finance quietly","Reply and ask for written confirmation","No. Don’t pay, follow the normal approval process, verify on a known channel and report"],c:3,
+f:["Personal Gmail address","Authority + urgency + secrecy","New bank account","Bypasses normal procedure","“Email only” blocks verification"],d:"STOP → VERIFY → REPORT"},
+{k:"phish",m:"From: Karthik S. (colleague, real internal address)\nSubject: Contract for your signature\n\n“Please review and sign this contract today.” [Sign in to view document]\n\nKarthik never mentioned any contract. The link opens a Microsoft-style login page.",
+a:"Real or phishing?",o:["Real. It’s from a colleague’s genuine address","Possibly phishing. A hijacked account can look real. Check with Karthik by phone/Teams and report","Real, but only if the page looks right","Sign in on your phone instead"],c:1,
+f:["Unexpected request","Login page to “view” a document","Urgency","Even a real internal address can be compromised"],d:"CHECK → VERIFY out-of-band → REPORT"},
+{k:"file",m:"Last week you shared a folder of customer records using “Anyone with the link”. You’ve just noticed.",
+a:"What should you do?",o:["Wait and see if anyone complains","Quietly remove the link and say nothing","Remove the link right away and report it to Security so the impact can be checked","Delete the folder so there’s no evidence"],c:2,
+f:["Public links can be forwarded and found","Silence stops Security from assessing harm","Deleting files hides, not fixes, the problem"],d:"FIX → REPORT quickly"},
+{k:"ai",m:"You sent an AI-drafted email to a customer without reading it closely. It quoted a wrong refund policy and a refund amount nobody approved. The customer has replied, happy.",
+a:"What now?",o:["Say the AI made the error, not you","Do nothing. The customer is happy","Wait for a complaint","Own it: tell your manager, correct it with the customer, and review AI output before sending in future"],c:3,
+f:["AI doesn’t carry accountability. You do","Unapproved commitments can cost money","Early honesty limits the damage"],d:"AI helps. You answer for it."},
+{k:"boss",m:"Within 10 minutes:\n\n💰 A “CEO” emails an urgent payment to a new bank account.\n🤖 An AI tool asks you to upload a customer database.\n🔐 You get an unexpected MFA approval request.\n🎣 “HR” sends a link asking you to enter your password.",
+a:"What should you do?",o:["Handle the CEO payment first, since it’s most urgent, then deal with the rest","Pay a small amount, approve MFA to clear it, skip the rest","Complete everything quickly, then report afterwards","STOP. Don’t pay, upload, approve or log in. VERIFY each through trusted channels and REPORT to Security"],c:3,
+f:["Payment: urgency + new bank account + authority","AI: customer data into an unapproved tool","MFA: approval you didn’t start","HR link: password request","Many attacks at once is designed to rush you"],d:"STOP → THINK → VERIFY → REPORT"}
+];
+const L=["A","B","C","D"];
+const tiers=[[18,"🛡️","Cyber Defender","You spot traps fast and stay calm under pressure. Share your know-how with your team!"],[14,"🔎","Threat Spotter","Sharp eyes. A little more practice and you’ll be a Defender."],[10,"⚡","Security Learner","Good foundations. A few more habits and you’re there."],[0,"🚨","Time for a Security Refresh","Every expert started here. Review the reveals and play again!"]];
+let i=0,s=0,streak=0;const app=document.getElementById("app");
+function esc(x){return x.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){app.innerHTML=`<div class="hero"><div class="lock">🔐</div><div class="sub">Cyber Security Awareness Month</div><h1>Don’t Make It Easy for Them</h1><p class="sub">20 scenarios. 4 rounds. 1 final boss. Think like a defender.</p></div>
+<div class="card"><h3>🎮 GAME RULES</h3><ul class="rules"><li>20 real-world workplace scenarios, 4 rounds, getting harder each round.</li><li>Pick the <b>safest action</b>. 1 point per correct answer, 20 maximum.</li><li>Answers stay hidden while you play. Your score appears when you finish.</li><li>⏱ <b>40 seconds</b> per question (60 for the Final Boss). Time’s up counts as a miss.</li><li>🏆 <b>3 winners</b>: highest score wins; ties are broken by the fastest total time. Submit your score at the end; your first attempt is the one that counts.</li></ul></div>
+<div class="card"><h3>👤 PLAYER</h3><p class="sub">Used only to record your score.</p><input id="pn" placeholder="Full name" maxlength="60" autocomplete="name"><input id="pe" placeholder="Employee ID" maxlength="30"></div>
+<div class="center"><button class="btn" id="go">▶ START THE CHALLENGE</button> <button class="btn alt" id="lb">📊 Leaderboard</button></div>`;
+document.getElementById("go").onclick=()=>{const n=document.getElementById("pn").value.trim(),e=document.getElementById("pe").value.trim();if(!n||!e){document.getElementById("pn").focus();alert("Please enter your name and employee ID.");return}ME={name:n,emp:e};i=0;s=0;streak=0;tot=0;nextScreen()};document.getElementById("lb").onclick=()=>dash(start)}
+function nextScreen(){if(i>=20)return end();if(i%5===0)return roundIntro();ask()}
+function roundIntro(){const r=R[i/5];app.innerHTML=`<div class="round" style="--c:${r.c}"><div class="big">${r.i}</div><div class="sub">ROUND ${r.n} · Questions ${i+1}–${i+5}</div><h2>${r.t}</h2><p>${r.d}</p><br><button class="btn" id="go">Begin Round ${r.n}</button></div>`;
+document.getElementById("go").onclick=ask}
+function ask(){const q=Q[i],t=T[q.k];
+app.innerHTML=`<div class="hud"><span class="pill">${R[Math.floor(i/5)].i} Q${i+1}/20</span><div class="bar"><i style="width:${i/20*100}%"></i></div></div>
+<div class="tmr"><span class="pill" id="tt">⏱</span><div class="tbar"><i id="tb"></i></div></div>
+<div class="card q" style="--c:${t[2]}"><span class="badge">${t[0]} ${t[1]}</span><h2>${q.k==="boss"?"Four threats. Ten minutes.":q.k==="flags"?"Count the warning signs":q.k==="pay"?"Approve or hold?":"What’s your move?"}</h2>
+<div class="msg ${q.cls||""}">${esc(q.m)}</div><div class="ask">${q.a}</div><div id="opts">${q.o.map((o,n)=>`<button class="opt" data-n="${n}"><b>${L[n]}</b><span>${esc(o)}</span></button>`).join("")}</div><div id="rv"></div></div>`;
+document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>pick(+b.dataset.n));window.scrollTo({top:0});answered=false;startTimer()}
+function pick(n){if(answered)return;answered=true;clearInterval(tm);tot+=Math.min(Date.now()-t0,lim());const q=Q[i];if(n===q.c)s++;
+document.querySelectorAll(".opt").forEach((b,k)=>{b.disabled=true;if(k===n)b.classList.add(n===q.c?"gok":"gbad")});
+if(n<0)document.getElementById("rv").innerHTML='<div class="reveal"><div class="verdict">⏱ Time’s up! Moving on…</div></div>';
+setTimeout(()=>{i++;nextScreen()},n<0?1200:1100)}
+function end(){const t=tiers.find(x=>s>=x[0]);
+app.innerHTML=`<div class="hero"><div class="sub">FINAL SCORE</div><div class="score">${s}/20</div><div style="font-size:56px">${t[1]}</div><h2>${t[2]}</h2><p class="sub">${t[3]}</p><p class="sub">⏱ Total time: ${fmt(tot)}</p><div id="st" class="sub"></div></div>
+<div class="card tiers">${tiers.map(x=>`<div class="${x===t?"on":""}">${x[1]} ${x[2]} · ${x[0]===18?"18–20":x[0]===14?"14–17":x[0]===10?"10–13":"0–9"}</div>`).join("")}</div>
+<div class="final">STOP → THINK → VERIFY → REPORT</div><div class="final" style="color:#4dd8ff">Don’t Make It Easy for Them.</div>
+<div class="center"><br><button class="btn" id="lb">📊 View leaderboard</button> <button class="btn alt" id="go">↻ Play again</button></div>`;
+document.getElementById("go").onclick=start;document.getElementById("lb").onclick=()=>dash(end);window.scrollTo({top:0});showSubmit()}
+
+let tm=null,tot=0,t0=0,answered=false,ME={name:"",emp:""};
+const lim=()=>(i===19?60:40)*1000;
+function fmt(ms){const t=Math.round(ms/1000);return Math.floor(t/60)+":"+String(t%60).padStart(2,"0")}
+function startTimer(){const L2=lim();t0=Date.now();clearInterval(tm);tm=setInterval(()=>{const left=Math.max(0,L2-(Date.now()-t0)),b=document.getElementById("tb"),t=document.getElementById("tt");if(b){b.style.width=left/L2*100+"%";b.className=left<10000?"low":"";t.textContent="⏱ "+Math.ceil(left/1000)+"s"}if(left<=0){clearInterval(tm);pick(-1)}},100)}
+function store(){try{return JSON.parse(localStorage.getItem("cq_results")||"[]")}catch(e){return[]}}
+const mem=[];
+function addLocal(r){mem.push(r);try{localStorage.setItem("cq_results",JSON.stringify(store().concat(r)))}catch(e){}}
+function all(){const a=store();return a.length?a:mem}
+function code(r){return [r.name,r.emp,r.score+"/20",fmt(r.ms),Math.round(r.ms/1000)+"s"].join(" | ")}
+function showSubmit(){const prior=all().some(r=>r.emp===ME.emp&&r.name===ME.name);const rec={name:ME.name,emp:ME.emp,score:s,ms:tot,at:Date.now()};addLocal(rec);
+const st=document.getElementById("st");if(!st)return;
+if(prior){st.innerHTML="You’ve played before, so this run is practice. Your first attempt is the one that counts.";return}
+st.innerHTML=`<div class="card" style="text-align:left"><b>📨 Submit your score</b><p class="sub">Result code:</p><input id="rc" readonly value="${esc(code(rec))}"><button class="btn" id="sb">${CONFIG.webhookUrl?"Submit score":CONFIG.formUrl?"Copy code &amp; open form":"Copy result code"}</button><p class="sub" id="sm"></p></div>`;
+document.getElementById("sb").onclick=async()=>{const m=document.getElementById("sm"),c=code(rec);
+try{await navigator.clipboard.writeText(c)}catch(e){document.getElementById("rc").select()}
+if(CONFIG.webhookUrl){try{await fetch(CONFIG.webhookUrl,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({name:rec.name,emp:rec.emp,score:rec.score,seconds:Math.round(rec.ms/1000),at:new Date(rec.at).toISOString()})});m.textContent="✅ Score submitted. Thank you!"}catch(e){m.textContent="Couldn’t submit. The code is copied, so please send it to the organiser."}}
+else if(CONFIG.formUrl){window.open(CONFIG.formUrl,"_blank");m.textContent="Code copied. Paste it into the form."}
+else m.textContent="Code copied. Send it to the quiz organiser."}}
+function toSec(v){v=String(v).trim();if(v.includes(":")){const p=v.split(":").map(Number);return(p[0]*60+(p[1]||0))}return parseFloat(v)||0}
+function parseCSV(t){const lines=t.split(/\r?\n/).filter(x=>x.trim());if(lines.length<2)return[];const d=lines[0].includes("\t")?"\t":",";
+const sp=l=>d==="\t"?l.split("\t"):l.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/);const cl=x=>x.trim().replace(/^"|"$/g,"").replace(/""/g,'"');
+const H=sp(lines[0]).map(x=>cl(x).toLowerCase());const f=re=>H.findIndex(x=>re.test(x));const ni=f(/name/),si=f(/score/),ti=f(/time|sec/);if(ni<0||si<0)return null;
+const seen=new Set(),out=[];for(const l of lines.slice(1)){const c=sp(l).map(cl),n=c[ni];if(!n||seen.has(n.toLowerCase()))continue;seen.add(n.toLowerCase());
+out.push({name:n,score:parseInt(c[si])||0,ms:ti>=0?toSec(c[ti])*1000:0})}return out}
+function dash(back){app.innerHTML=`<div class="hero" style="padding-top:20px"><div style="font-size:48px">📊</div><h1 style="font-size:clamp(28px,7vw,44px)">Leaderboard</h1><p class="sub">Top 3 win: highest score first, then fastest total time.</p></div>
+<div id="dd"></div><div class="card"><h3>💻 Results on this device</h3><div id="lc"></div></div><div class="card"><h3>🧹 Reset leaderboard</h3><p class="sub">Clears the results saved on this device. This cannot be undone.</p><div class="center"><button class="btn alt" id="rs">Reset leaderboard</button></div></div><div class="center"><button class="btn alt" id="bk">◀ Back</button></div>`;
+document.getElementById("bk").onclick=back;
+document.getElementById("rs").onclick=function(){if(this.dataset.c!=="1"){this.dataset.c="1";this.textContent="Click again to confirm reset";return}
+mem.length=0;try{localStorage.removeItem("cq_results")}catch(e){}dash(back)};
+paint(document.getElementById("lc"),all().map(r=>({name:r.name,score:r.score,ms:r.ms})),true);}
+function paint(el,rows,small){rows=rows.slice().sort((a,b)=>b.score-a.score||a.ms-b.ms);const n=rows.length;
+if(!n){el.innerHTML='<p class="sub">No results yet.</p>';return}
+const med=["🥇","🥈","🥉"],avg=(rows.reduce((a,r)=>a+r.score,0)/n).toFixed(1);
+const pd=[1,0,2].filter(k=>rows[k]).map(k=>`<div class="${k===0?"p1":""}"><div class="m" style="background:none;border:0;padding:0">${med[k]}</div><b>${esc(rows[k].name)}</b><span class="sc">${rows[k].score}/20</span><div class="sub" style="border:0;padding:0;background:none">⏱ ${fmt(rows[k].ms)}</div></div>`).join("");
+el.innerHTML=(small?"":`<div class="stats"><div><b>${n}</b><span class="sub">Players</span></div><div><b>${avg}</b><span class="sub">Avg score</span></div><div><b>${rows[0].score}</b><span class="sub">Top score</span></div></div><h3 style="margin-top:20px;text-align:center">🏆 Winners</h3><div class="pod">${pd}</div>`)+
+`<div class="${small?"":"card"}">${small?"":'<h3 style="margin-bottom:8px">👥 All players &amp; scores</h3>'}<table><tr><th>#</th><th>Player</th><th>Score</th><th>Time</th></tr>${rows.map((r,k)=>`<tr class="${k<3&&!small?"w":""}"><td>${med[k]&&!small?med[k]:k+1}</td><td>${esc(r.name)}</td><td>${r.score}/20</td><td>${fmt(r.ms)}</td></tr>`).join("")}</table></div>`}
+start();
+</script></body></html>
